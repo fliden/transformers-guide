@@ -1,4 +1,4 @@
-# HuggingFace Transformers Exploration
+# HuggingFace Transformers Guide
 
 A hands-on exploration of the HuggingFace Transformers library, comparing the high-level pipeline API with manual inference approaches.
 
@@ -7,7 +7,6 @@ A hands-on exploration of the HuggingFace Transformers library, comparing the hi
 Most tutorials show you how to use `pipeline()` and call it a day. But understanding what happens under the hood—tokenization, logits, softmax, autoregressive generation—makes you a better ML practitioner. This repo documents my learning journey with working code you can run.
 
 ## Repository Structure
-
 ```
 transformers-guide/
 ├── 01-pipelines/              # High-level API (quick and easy)
@@ -28,30 +27,26 @@ transformers-guide/
 │   ├── text2text_generation.py
 │   └── README.md              # ← Detailed concept explanations
 │
+├── MODELS.md                  # Model reference and selection guide
 ├── README.md
 └── pyproject.toml
 ```
 
 ## Quick Start
-
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/transformers-guide
+git clone https://github.com/fliden/transformers-guide
 cd transformers-guide
 
-# Install dependencies
+# Install dependencies (uv recommended)
 uv sync
 
 # Or using pip
 pip install torch transformers sentencepiece
 
-# Run the examples
+# Run examples
 python 02-manual/sentiment_analysis.py
-python 02-manual/emotion_classification.py
-python 02-manual/language_detection.py
-python 02-manual/fill_mask.py
 python 02-manual/text_generation.py
-python 02-manual/text2text_generation.py
 ```
 
 ## What's Covered
@@ -65,7 +60,18 @@ python 02-manual/text2text_generation.py
 | Text Generation | ✅ | ✅ | Decoder-only | Autoregressive decoding, sampling strategies |
 | Text-to-Text | ✅ | ✅ | Encoder-decoder | Transformation tasks, task prefixes |
 
-## Key Concepts (Quick Reference)
+## Models
+
+See **[MODELS.md](MODELS.md)** for detailed information about each model, architecture comparisons, hardware requirements, and model selection guidance.
+
+**Quick reference:**
+- **Classification**: DistilBERT (sentiment), DistilRoBERTa (emotion), XLM-RoBERTa (language)
+- **Generation**: GPT-2
+- **Text-to-Text**: T5-small
+
+All models download automatically on first run and are cached locally (~2.7 GB total).
+
+## Key Concepts
 
 | Term | What It Means |
 |------|---------------|
@@ -84,7 +90,6 @@ For detailed explanations, see `02-manual/README.md`.
 ## Transformer Architectures: A Brief History
 
 Understanding *why* different architectures exist helps you choose the right model:
-
 ```
 2017: Transformer ("Attention Is All You Need")
       └── Original encoder-decoder for translation
@@ -116,43 +121,6 @@ Understanding *why* different architectures exist helps you choose the right mod
 | Translation, summarization | Encoder-decoder (T5) | Understands input, generates different output |
 | Embeddings, similarity | Encoder (BERT) | Rich bidirectional representations |
 
-## Models Used
-
-| Model | Task | Architecture | Parameters | Size |
-|-------|------|--------------|------------|------|
-| DistilBERT (SST-2) | Sentiment (2-class) | Encoder | 66M | ~268 MB |
-| DistilRoBERTa (Emotion) | Emotion (7-class) | Encoder | 82M | ~330 MB |
-| XLM-RoBERTa (Language) | Language (20-class) | Encoder (multilingual) | 278M | ~1.1 GB |
-| DistilBERT (base) | Fill-mask | Encoder | 66M | ~256 MB |
-| GPT-2 | Text generation | Decoder-only | 124M | ~548 MB |
-| T5-small | Translation, summarization | Encoder-decoder | 60M | ~240 MB |
-
-Models are downloaded automatically on first run and cached locally.
-
-## Requirements
-
-- Python 3.13+
-- PyTorch (with MPS support for Apple Silicon)
-- Transformers library
-- SentencePiece (for T5 tokenizer)
-
-```bash
-# Using uv (recommended)
-uv sync
-
-# Or using pip
-pip install torch transformers sentencepiece
-```
-
-### Apple Silicon (M1/M2/M3)
-
-The standard torch installation includes MPS support:
-
-```python
-import torch
-print(torch.backends.mps.is_available())  # Should be True
-```
-
 ## Learning Path
 
 1. **Start with `02-manual/sentiment_analysis.py`** — Binary classification, simplest case
@@ -161,6 +129,21 @@ print(torch.backends.mps.is_available())  # Should be True
 4. **Move to `02-manual/text_generation.py`** — Decoder-only generation (GPT-2 style)
 5. **Then `02-manual/text2text_generation.py`** — Encoder-decoder (T5 style), contrast with GPT-2
 6. **Compare with `01-pipelines/`** — Appreciate what the pipeline abstracts away
+7. **Check `MODELS.md`** — Explore model variants and selection criteria
+
+## Requirements
+
+- Python 3.13+
+- PyTorch
+- Transformers library
+- SentencePiece (for T5 tokenizer)
+```bash
+# Using uv (recommended)
+uv sync
+
+# Or using pip
+pip install torch transformers sentencepiece
+```
 
 ## License
 
