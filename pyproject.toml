@@ -1,0 +1,11 @@
+[project]
+name = "transformers-guide"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13.7"
+dependencies = [
+    "torch>=2.9.1",
+    "transformers>=4.57.3",
+    "sentencepiece>=0.2.0",
+]
